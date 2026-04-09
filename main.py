@@ -12,7 +12,7 @@ app = FastAPI(title="Expense Tracker API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten this later to your Vercel URL
+    allow_origins=["https://expense-dashboard-ruddy.vercel.app"],  # tighten this later to your Vercel URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
