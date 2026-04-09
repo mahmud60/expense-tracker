@@ -1,7 +1,6 @@
 annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.13.0
-bcrypt==5.0.0
 cffi==2.0.0
 click==8.3.2
 colorama==0.4.6
@@ -19,6 +18,7 @@ pydantic==2.12.5
 pydantic_core==2.41.5
 python-dotenv==1.2.2
 python-jose==3.5.0
+python-multipart==0.0.24
 rsa==4.9.1
 six==1.17.0
 SQLAlchemy==2.0.49
