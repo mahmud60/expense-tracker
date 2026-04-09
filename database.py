@@ -5,10 +5,6 @@ from sqlalchemy.orm import sessionmaker
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# Debug — print to Railway logs
-print(f"DATABASE_URL found: {DATABASE_URL is not None}")
-print(f"DATABASE_URL starts with: {DATABASE_URL[:15] if DATABASE_URL else 'NONE'}")
-
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL environment variable is not set")
 
