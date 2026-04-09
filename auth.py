@@ -7,13 +7,10 @@ from sqlalchemy.orm import Session
 import models
 from database import get_db
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-dev-key")
 ALGORITHM = "HS256"
-TOKEN_EXPIRE_MINUTE = 30
+TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -26,7 +23,7 @@ def verify_password(plain: str, hashed: str) -> bool:
 
 def create_token(data: dict) -> str:
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRE_MINUTE)
+    expire = datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRE_MINUTES)
     to_encode["exp"] = expire
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -44,5 +41,8 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     except JWTError:
         raise credentials_exception
 
-
-
+    # These two lines were missing — look up the user and return them
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if user is None:
+        raise credentials_exception
+    return user
