@@ -10,6 +10,14 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Expense Tracker API")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # tighten this later to your Vercel URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # REGISTER
 @app.post("/register", response_model=schemas.UserResponse, status_code=201)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
